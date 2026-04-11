@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Color Palette - Neutral Obsidian */
+    --bg-main: #000000;
+    --bg-sidebar: #000000;
+    --bg-card: rgba(10, 10, 10, 0.8);
+    
+    --accent-primary: #ffffff;
+    --accent-secondary: #888888;
+    --accent-logo: #00d2ff;
+    --accent-logo-glow: rgba(0, 210, 255, 0.4);
+    --accent-success: #00ff88;
+    --accent-danger: #ff3e3e;
+    --accent-warning: #ffb800;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --text-dim: #444444;
+    
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border-bright: rgba(255, 255, 255, 0.2);
+    
+    --glow-primary: rgba(255, 255, 255, 0.1);
+    
+    --sidebar-width: 280px;
+    --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #000000 !important;
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+}
+
+/* Layout */
+.app-shell {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: #000000 !important;
+    border-right: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+    z-index: 100;
+    position: fixed;
+    height: 100vh;
+    transition: var(--transition-smooth);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 1024px) {
+    .sidebar { transform: translateX(-100%); width: 0; padding: 0; border: none; }
+    .main-content { margin-left: 0; padding: 2rem 1.5rem; }
+}
+
+/* Typography & Branding */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 4rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--accent-logo);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    color: white;
+    box-shadow: 0 0 25px var(--accent-logo-glow);
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-icon::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.2) 50%, transparent 55%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%); }
+    100% { transform: translateX(100%) translateY(100%); }
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* Dashboard Content */
+.container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.header-group {
+    margin-bottom: 4rem;
+    text-align: left;
+    width: 100%;
+}
+
+.header-group h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-group p {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    font-weight: 400;
+}
+
+/* Cards & Components */
+.card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    transition: var(--transition-smooth);
+}
+
+.card:hover {
+    border-color: var(--glass-border-bright);
+    background: rgba(20, 20, 20, 0.7);
+    transform: translateY(-2px);
+}
+
+/* Auth System Overlay */
+.auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000 !important;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+}
+
+.auth-panel {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid var(--glass-border);
+    padding: 3.5rem;
+    border-radius: 32px;
+    backdrop-filter: blur(40px);
+    text-align: center;
+    animation: authIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes authIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Forms */
+.form-field {
+    text-align: left;
+    margin-bottom: 1.75rem;
+}
+
+.form-field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+}
+
+input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    padding: 1.25rem 1.5rem;
+    border-radius: 16px;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+input:focus {
+    border-color: var(--accent-primary);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 1.25rem;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: inherit;
+}
+
+.btn-solid {
+    background: white;
+    color: black;
+}
+
+.btn-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--glass-border);
+}
+
+.btn-ghost:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+/* URL Controls */
+.url-grid {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.url-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    padding: 1.75rem 2rem;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+
+.url-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--glass-border-bright);
+    transform: scale(1.01);
+}
+
+.url-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.url-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
+
+.url-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Status Indicators */
+.status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.875rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.status-tag i { font-size: 0.8rem; }
+.status-tag.ok { color: var(--accent-success); border: 1px solid rgba(0, 255, 136, 0.2); }
+.status-tag.err { color: var(--accent-danger); border: 1px solid rgba(255, 62, 62, 0.2); }
+.status-tag.pending { color: var(--accent-warning); border: 1px solid rgba(255, 184, 0, 0.2); }
+
+/* Toasts */
+.toast-stack {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 5000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.toast {
+    background: #ffffff;
+    color: #000;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 800;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: toastPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes toastPop {
+    from { transform: translateX(100px) scale(0.9); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+.hidden { display: none !important; }

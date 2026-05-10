@@ -57,7 +57,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 2.5rem;
-    z-index: 100;
+    z-index: 1000;
     position: fixed;
     height: 100vh;
     transition: var(--transition-smooth);
@@ -74,9 +74,44 @@ body {
     position: relative;
 }
 
+/* Mobile Controls */
+.mobile-menu-btn {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 1100;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    color: white;
+    display: none;
+    place-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
 @media (max-width: 1024px) {
-    .sidebar { transform: translateX(-100%); width: 0; padding: 0; border: none; }
-    .main-content { margin-left: 0; padding: 2rem 1.5rem; }
+    .mobile-menu-btn { display: grid; }
+    .sidebar { 
+        transform: translateX(-100%); 
+        box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+    }
+    .sidebar.active { transform: translateX(0); }
+    .main-content { margin-left: 0; padding: 6rem 1.5rem 2rem; }
+    
+    .header-group h1 { font-size: 2.25rem; letter-spacing: -1px; }
+    .card { padding: 1.5rem; }
+    .auth-panel { padding: 2.5rem 2rem; }
+    
+    .url-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .url-actions { width: 100%; }
+    .url-actions button { width: 100%; }
 }
 
 /* Typography & Branding */
@@ -363,6 +398,46 @@ input:focus {
 @keyframes toastPop {
     from { transform: translateX(100px) scale(0.9); opacity: 0; }
     to { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+.auth-toggle {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.auth-toggle span {
+    color: var(--accent-logo);
+    cursor: pointer;
+    font-weight: 700;
+    margin-left: 0.5rem;
+    position: relative;
+    transition: var(--transition-smooth);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+
+.auth-toggle span:hover {
+    color: white;
+    background: rgba(0, 210, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+}
+
+.auth-toggle span::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0.5rem;
+    right: 0.5rem;
+    height: 1px;
+    background: var(--accent-logo);
+    transform: scaleX(0);
+    transition: var(--transition-smooth);
+}
+
+.auth-toggle span:hover::after {
+    transform: scaleX(1);
+    background: white;
 }
 
 .hidden { display: none !important; }

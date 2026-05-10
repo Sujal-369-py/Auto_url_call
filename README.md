@@ -9,11 +9,13 @@ A professional, high-performance URL keeper designed to keep your web services (
 ## ✨ Features
 
 - **Pro-Tier UI/UX**: Sophisticated monochrome design with absolute black backgrounds and high-fidelity micro-animations.
-- **Smart Background Pinger**: Automated polling every 15 minutes using `APScheduler`.
+- **Smart Background Pinger**: Automated polling every **8 minutes** using `APScheduler` with retry logic and structured logging.
 - **Instant Activation**: New URLs are pinged immediately upon addition for instant status confirmation.
 - **Secure Authentication**: Complete JWT-based user system with secure password hashing.
 - **Service Isolation**: Multi-user support with strict data isolation via MongoDB.
 - **Real-Time Toasts**: Professional feedback system for dashboard interactions.
+- **Health Endpoint**: `GET /health` returns scheduler status — ideal for uptime monitors and Render health checks.
+- **Production Hardened**: Retry with backoff, concurrency limiting, graceful shutdown, duplicate job protection, and comprehensive logging.
 
 ## 🛠️ Technology Stack
 
@@ -26,7 +28,7 @@ A professional, high-performance URL keeper designed to keep your web services (
 ## 🚀 Setup Instructions
 
 ### 1. Prerequisites
-- Python 3.10+
+- Python 3.10+ (Specified in `runtime.txt` for Render)
 - MongoDB instance (Atlas or local)
 
 ### 2. Environment Configuration
@@ -52,7 +54,7 @@ Access the dashboard at `http://localhost:8000`.
 DeepBolt/
 ├── app/
 │   ├── core/
-│   │   └── calling_api.py   # Background pinger logic
+│   │   └── calling_api.py   # Background pinger with scheduler, retries & logging
 │   ├── state/
 │   │   └── state_manager.py # MongoDB interaction layer
 │   └── static/              # Professional Frontend assets
@@ -60,10 +62,17 @@ DeepBolt/
 │       ├── index.html
 │       ├── script.js
 │       └── style.css
-├── main.py                  # FastAPI server and endpoints
+├── main.py                  # FastAPI server, endpoints & health check
 ├── requirements.txt         # Project dependencies
 └── README.md                # Project documentation
 ```
+
+## 🔧 Production Deployment (Render)
+
+1. Set environment variables `DB_URL` and `SECRET_KEY` in the Render dashboard.
+2. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+3. The `/health` endpoint can be used as Render's health check URL.
+4. Scheduler fires every 8 minutes with `misfire_grace_time=600s` to survive Render's free-tier sleep/wake cycles.
 
 ## 📜 License
 MIT License. Created for professional service monitoring.

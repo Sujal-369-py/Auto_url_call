@@ -1,20 +1,28 @@
 import os
 import datetime
 import uuid
+import logging
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logger = logging.getLogger("deepbolt.db")
+
 
 class StateManager:
     def __init__(self):
         db_url = os.getenv("DB_URL")
         if not db_url:
             raise ValueError("DB_URL not found in environment")
-        self.client = AsyncIOMotorClient(db_url)
+        self.client = AsyncIOMotorClient(
+            db_url,
+            serverSelectionTimeoutMS=10_000,  # Fail fast on connection issues
+        )
         self.db = self.client.autocall_db
         self.users = self.db.users
         self.urls = self.db.urls
+        logger.info("MongoDB client initialized (db=%s)", self.db.name)
 
     # User Management
     async def create_user(self, username, hashed_password):

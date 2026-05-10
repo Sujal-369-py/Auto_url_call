@@ -95,6 +95,18 @@ function logout() {
     token = null;
     appShell.classList.add('hidden');
     authOverlay.classList.remove('hidden');
+    document.getElementById('sidebar').classList.remove('active');
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('active');
+    const icon = document.querySelector('#mobileMenuBtn i');
+    if (sidebar.classList.contains('active')) {
+        icon.className = 'fas fa-times';
+    } else {
+        icon.className = 'fas fa-bars';
+    }
 }
 
 // --- Core App Logic ---
@@ -162,8 +174,8 @@ function renderUrls(urls) {
                         <i class="fas ${statusIcon}"></i>
                         ${status}
                     </div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 600;">
-                        <i class="far fa-clock" style="margin-right: 0.25rem;"></i>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 600; padding: 0.25rem 0.5rem; background: rgba(255,255,255,0.03); border-radius: 6px;">
+                        <i class="far fa-clock" style="margin-right: 0.4rem; opacity: 0.7;"></i>
                         ${u.last_ping || 'NEVER'}
                     </span>
                 </div>
